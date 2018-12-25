@@ -29,8 +29,9 @@ Widget::Widget(QWidget *parent) :
     }
     else
     {
-        connect(udpSocket1, SIGNAL(readyRead()), this, SLOT(receive()));
-        connect(ui->udpSendButton,SIGNAL(clicked()),this, SLOT(send()));
+        //udpSocket1->readyRead();
+        connect(udpSocket1, SIGNAL(readyRead()), this, SLOT(receive()));//第一个参数是QObject发送信号的对象，第二个是信号，比如什么东西触发了，第三个是接收对象，第四个是槽函数
+        connect(ui->udpSendButton,SIGNAL(clicked()),this, SLOT(send()));//相当于把两个函数绑定在一起了，里面写的函数都是callback（）回调函数
     }
     this->setWindowTitle(tr("Udp chat UI based on Qt "));
 }
@@ -151,6 +152,7 @@ void Widget::on_exitButton_clicked()
 Widget::~Widget()
 {
     delete ui;
+    udpSocket1->disconnectFromHost();
 }
 
 void Widget::on_tcpSendButton_clicked()
